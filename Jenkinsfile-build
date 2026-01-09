@@ -41,7 +41,10 @@ pipeline {
     post {
         success {
             build job: 'python-test-pipeline'
-                }
+        }
+        failure {
+        echo 'Build failed. Tests not triggered.'
+    }
         }
 }
 
