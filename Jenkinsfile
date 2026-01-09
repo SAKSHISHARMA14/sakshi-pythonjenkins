@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Setup Python') {
+            steps {
+                sh '''
+                    python3.13 --version
+                    python3.13 -m venv .venv
+                    . .venv/bin/activate
+                    pip install --upgrade pip
+                '''
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh '''
+                    . .venv/bin/activate
+                    pip install -r requirements.txt
+                '''
+            }
+        }
+
+        stage('Run App') {
+            steps {
+                sh '''
+                    . .venv/bin/activate
+                    python main.py
+                '''
+            }
+        }
+    }
+}
