@@ -37,10 +37,11 @@ pipeline {
                 '''
             }
         }
+    }
     post {
         success {
             build job: 'python-test-pipeline'
                 }
         }
-    }
 }
+
