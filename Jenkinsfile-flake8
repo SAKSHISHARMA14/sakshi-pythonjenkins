@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -23,28 +24,17 @@ pipeline {
                 sh '''
                     . .venv/bin/activate
                     pip install -r requirements.txt
-                    pip install pytest
                 '''
             }
         }
 
-        stage('Run Tests') {
+        stage('Run flake8') {
             steps {
                 sh '''
                     . .venv/bin/activate
-                    pytest tests/
+                    flake8 .
                 '''
             }
         }
     }
-
-post {
-    success {
-        build job: 'python-flake8-pipeline'
-    }
-    failure {
-        echo 'Tests failed. Code quality not checked.'
-    }
-}
-
 }
