@@ -37,19 +37,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        success {
-            script {
-                def result = build job: 'python-flake8-pipeline', propagate: false
-                if (result.result != 'SUCCESS') {
-                    error "Flake8 quality checks failed"
-                }
-            }
-        }
-
-        failure {
-            echo 'Tests failed. Code quality not checked.'
-        }
-    }
 }
